@@ -1,0 +1,30 @@
+note over Browser:
+User will give input in textfield 
+and tap save button
+end note
+note over Browser:
+Browser will send request to the 
+server containing given data
+end note
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over Server:
+Server will create new object containing data 
+(req.body.note) and date and will add it to notes array
+end note
+Server-->Browser: HTTP Status 302 - Redirect to /notes
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server-->Browser: HTML code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser: main.css
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server-->Browser: main.js
+note over Browser:
+Browser will execute main.js that requests 
+JSON (data.json)  data from server 
+end note
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+Server-->Browser: [{ content: "uujytjyt", date: "2022-02-16T14:42:46.868Z" }, ...]
+note over Browser:
+Browser will execute the event handler
+that renders the notes to display
+end note
