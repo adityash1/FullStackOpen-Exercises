@@ -1,0 +1,21 @@
+note over Browser:
+User inputs data in textfield 
+and click save button
+end note
+note over Browser:
+spa.js gets from element by id 
+and prevent default handling 
+to render notes, creates new object
+with content and date and 
+pushes it to notes array, redraw 
+notes, sends new object to server
+in request body as JSON
+end note
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over Server:
+Server adds request note to
+notes array and send JSON 
+to browser  
+end note
+Server-->Browser: HTTP Status Code 201, Created
+Server-->Browser: {"message":"note created"}
