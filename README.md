@@ -4,9 +4,9 @@
 
 ✅ Part 0:  Fundamentals of Web apps
 <br/>
-☑️ Part 1:  Introduction to React 
+✅ Part 1:  Introduction to React 
 <br/>
-❌ Part 2:  Communicating with server 
+☑️ Part 2:  Communicating with server 
 <br/>
 ❌ Part 3:  Programming a server with NodeJS and Express 
 <br/>
