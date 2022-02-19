@@ -16,19 +16,22 @@ const Statistics = ({ statistics }) => {
   const good = statistics[0];
   const neutral = statistics[1];
   const bad = statistics[2];
+  const total = good + neutral + bad;
 
+  const average = () => (good - bad) / total;
+  const positive = () => ((good * 100) / total) + '%';
+  
   return (
     <>
       <h1>Statistics</h1> 
-      {
-        <>
-          <table>
-            <Statistic text='good' value={good} />
-            <Statistic text='neutral' value={neutral} />
-            <Statistic text='bad' value={bad} />
-          </table>
-        </>
-      }
+      <table>
+        <Statistic text='good' value={good} />
+        <Statistic text='neutral' value={neutral} />
+        <Statistic text='bad' value={bad} />
+        <Statistic text='all' value={total} />
+        <Statistic text='average' value={average()} />
+        <Statistic text='positive' value={positive()} />
+      </table>
     </>
   );
 };
@@ -45,6 +48,7 @@ const App = () => {
   const handleGood = () => setGood(good + 1);
   const handleNeutral = () => setneutral(neutral + 1);
   const handleBad = () => setBad(bad + 1);
+  
 
   return (
     <>
