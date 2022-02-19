@@ -23,7 +23,7 @@ const Statistics = ({ statistics }) => {
   
   return (
     <>
-      <h1>Statistics</h1>
+      <h2>Statistics</h2>
       {
         total === 0 ? ('No FeedBack Given') :
           (
@@ -66,7 +66,7 @@ const App = () => {
   
   return (
     <>
-      <h1>Give FeedBack</h1>
+      <h2>Give FeedBack</h2>
       <Button handleClick={handleGood} text='good' />
       <Button handleClick={handleNeutral} text='neutral' />
       <Button handleClick={handleBad} text='bad' />
