@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Header = ({ course }) => {
+const Header = ({ name }) => {
 	return (
 		<>
-			<h1>{course}</h1>
+			<h1>{name}</h1>
 		</>
 	)
 }
@@ -28,11 +28,22 @@ const Part = ({ part }) => {
 	)
 }
 
+const Total = ({ parts }) => {
+	return (
+		<>
+			<p> 
+				total of {parts.reduce((sum, part) => sum + part.exercises, 0)} exercises 
+			</p>
+		</>
+	)
+}
+
 const Course = ({ course }) => {
 	return (
 		<>
-			<Header course={course.name} />
+			<Header name={course.name} />
 			<Content parts={course.parts} />
+			<Total parts={course.parts} />
 		</>
 	)
 }
