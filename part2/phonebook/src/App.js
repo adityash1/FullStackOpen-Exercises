@@ -1,15 +1,46 @@
 import { useState } from 'react'
 
+const Filter = ({ onFilter }) => {
+  return (
+    <>
+      filter shown with <input onChange={onFilter} />
+    </>
+  )
+}
+
+const Person = ({ person }) => <p>{person.name} {person.number}</p>
+
+const Persons = ({ persons, filter }) => {
+  const data = filter.length ? filter : persons;
+  return (
+    <>
+      {data.map(person => 
+        <Person key={person.name} person={person} />
+      )}
+    </>
+  )
+}
+
 const App = () => {
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState([]);
 
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const found = persons.find(person => person.name === newName)
-  const Person = ({ persons }) => <p>{persons.name} {persons.number}</p>
-
+  
+  const onFilter = (e) => {
+    const filtered = persons.filter(person => 
+      person.name.toLowerCase().includes(e.target.value.toLowerCase()));
+    setFilter(filtered);
+  };
 
   const addContact = (event) => {
     event.preventDefault()
@@ -31,6 +62,8 @@ const App = () => {
   return (
     <>
       <h2>Phonebook</h2>
+      <Filter onFilter={onFilter} />
+      <h2>add a new</h2>
       <form onSubmit={addContact}>
         <div>
           name:
@@ -51,9 +84,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(x => 
-          <Person key={x.id} persons={x} />
-        )}
+        <Persons persons={persons} filter={filter} />
       </div>
     </>
   )
