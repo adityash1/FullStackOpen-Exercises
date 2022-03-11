@@ -1,6 +1,6 @@
-# FullStackOpen 2021
+# FullStackOpen 2022
 
-## Exercises Solutions to the Full Stack Open 2021 by University of Helsinki
+## Exercises Solutions to the Full Stack Open 2022 by University of Helsinki
 
 ✅ Part 0:  Fundamentals of Web apps
 <br/>
