@@ -1,13 +1,26 @@
 import Filter from "./components/Filter";
 import ContactForm from "./components/ContactForm";
 import Persons from "./components/ContactList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
+
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+
+  useEffect(() => {    
+    console.log('effect')    
+    axios      
+    .get('http://localhost:3001/persons')      
+    .then(response => {        
+      console.log('promise fulfilled')        
+      setPersons(response.data)      
+    })  
+  }, [])
 
   // event handler function for filter input
   const handleFilterChange = (event) => {
