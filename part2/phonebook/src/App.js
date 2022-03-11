@@ -4,14 +4,12 @@ import Persons from "./components/ContactList";
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
 
-  // event handler function for number input
+  // event handler function for filter input
   const handleFilterChange = (event) => {
     const filtered = persons.filter((person) =>
       person.name.toLowerCase().includes(event.target.value.toLowerCase())
@@ -32,8 +30,7 @@ const App = () => {
       alert(`${newName} is already added to the phonebook`);
     } else if (persons.find((person) => person.number === newNumber)) {
       alert(`There already exist a contact with the number ${newNumber}`);
-    } 
-    else {
+    } else {
       const newPerson = {
         name: newName,
         number: newNumber,
