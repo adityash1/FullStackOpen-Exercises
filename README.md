@@ -6,9 +6,9 @@
 <br/>
 ✅ Part 1:  Introduction to React 
 <br/>
-☑️ Part 2:  Communicating with server 
+✅ Part 2:  Communicating with server 
 <br/>
-❌ Part 3:  Programming a server with NodeJS and Express 
+☑️ Part 3:  Programming a server with NodeJS and Express 
 <br/>
 ❌ Part 4:  Testing Express servers, user administration 
 <br/>
