@@ -1,3 +1,10 @@
-const Contact = ({ person }) => <><p>{person.name} {person.number}</p></>
+const Contact = ({ person, onRemove }) => (
+  <>
+    <div>
+    {person.name} {person.number} {" "}
+    <button onClick={() => onRemove(person)}>delete</button>
+    </div>
+  </>
+);
 
-export default Contact
+export default Contact;

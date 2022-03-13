@@ -1,10 +1,8 @@
 import Filter from "./components/Filter";
 import ContactForm from "./components/ContactForm";
-import Persons from "./components/ContactList";
+import ContactList from "./components/ContactList";
 import { useState, useEffect } from "react";
-
-import axios from "axios";
-
+import list from "./services/list";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,15 +10,12 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
 
-  useEffect(() => {    
-    console.log('effect')    
-    axios      
-    .get('http://localhost:3001/persons')      
-    .then(response => {        
-      console.log('promise fulfilled')        
-      setPersons(response.data)      
-    })  
-  }, [])
+  useEffect(() => {
+    list.getAll().then((initialPersons) => {
+      console.log("promise fulfilled");
+      setPersons(initialPersons);
+    });
+  }, []);
 
   // event handler function for filter input
   const handleFilterChange = (event) => {
@@ -39,20 +34,63 @@ const App = () => {
   // event handler function for form submission
   const addContact = (event) => {
     event.preventDefault();
-    if (persons.find((person) => person.name === newName)) {
+    if (
+      persons.find(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      ) &&
+      persons.find((person) => person.number === newNumber)
+    ) {
       alert(`${newName} is already added to the phonebook`);
-    } else if (persons.find((person) => person.number === newNumber)) {
-      alert(`There already exist a contact with the number ${newNumber}`);
+    } else if (
+      persons.find(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      )
+    ) {
+      const result = window.confirm(
+        `${newName} is already added to the phonebook, replace the old number with a new one?`
+      );
+      if (result) {
+        const person = persons.find(
+          (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+        const id = person.id;
+        const newPerson = { ...person, number: newNumber };
+        list.update(id, newPerson).then((response) => {
+          setPersons(
+            persons.map((person) => (person.id !== id ? person : response))
+          );
+        });
+      }
     } else {
       const newPerson = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       };
-      setPersons(persons.concat(newPerson));
+      list.create(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(newPerson));
+      });
     }
     setNewName("");
     setNewNumber("");
+  };
+
+  // event handler function for delete button
+  const handleDelete = (person) => {
+    const result = window.confirm(`Delete ${person.name}?`);
+    if (result)
+      list
+        .remove(person.id)
+        .then((response) => {
+          setPersons(persons.filter((p) => p.id !== person.id));
+          window.confirm(`${person.name} was deleted from the phonebook`);
+        })
+        .catch((error) => {
+          alert({
+            message: `${person.name} was already removed`,
+            style: "error",
+          });
+          setPersons(persons.filter((p) => p.id !== person.id));
+        });
   };
 
   return (
@@ -68,7 +106,12 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons key={persons.id} persons={persons} filter={filter} />
+      <ContactList
+        key={persons.id}
+        persons={persons}
+        filter={filter}
+        onRemove={handleDelete}
+      />
     </>
   );
 };
