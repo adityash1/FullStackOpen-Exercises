@@ -6,7 +6,7 @@ const ContactList = ({ persons, filter, onRemove }) => {
   return (
     <>
       {appliedFilter.map((person) => (
-        <Contact key={person.id} person={person} onRemove={onRemove}/>
+        <Contact key={person.id} person={person} onRemove={onRemove} />
       ))}
     </>
   );
