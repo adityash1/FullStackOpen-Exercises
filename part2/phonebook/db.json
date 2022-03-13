@@ -1,19 +1,19 @@
 {
   "persons": [
     {
+      "id": 2,
+      "name": "Ada Lovelace",
+      "number": "3944532352"
+    },
+    {
+      "id": 3,
+      "name": "Dan Abramov",
+      "number": "1243234345"
+    },
+    {
+      "id": 4,
       "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Marijn Haverbeke",
-      "6263927004": "",
-      "id": 5
-    },
-    {
-      "name": "Elon Musk",
-      "number": "4423642311",
-      "id": 6
+      "number": "3923642312"
     }
   ]
 }

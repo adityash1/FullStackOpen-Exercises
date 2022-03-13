@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
+
 import Filter from "./components/Filter";
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
-import { useState, useEffect } from "react";
+import Notification from "./components/Notification";
 import list from "./services/list";
 
 const App = () => {
@@ -9,6 +11,10 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState({
+    message: null,
+    style: null,
+  });
 
   useEffect(() => {
     list.getAll().then((initialPersons) => {
@@ -40,7 +46,10 @@ const App = () => {
       ) &&
       persons.find((person) => person.number === newNumber)
     ) {
-      alert(`${newName} is already added to the phonebook`);
+      setNotification(`${newName} is already added to phonebook.`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     } else if (
       persons.find(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
@@ -55,11 +64,30 @@ const App = () => {
         );
         const id = person.id;
         const newPerson = { ...person, number: newNumber };
-        list.update(id, newPerson).then((response) => {
-          setPersons(
-            persons.map((person) => (person.id !== id ? person : response))
-          );
-        });
+        list
+          .update(id, newPerson)
+          .then((response) => {
+            setNotification({
+              message: `${response.name} was updated successfully`,
+              style: "success",
+            });
+            setTimeout(() => {
+              setNotification({ message: null, style: null });
+            }, 5000);
+            setPersons(
+              persons.map((person) => (person.id !== id ? person : response))
+            );
+          })
+          .catch((error) => {
+            setNotification({
+              message: `${person.name} has already been removed from server`,
+              style: "error",
+            });
+            setTimeout(() => {
+              setNotification({ message: null, style: null });
+            }, 5000);
+            setPersons(persons.filter((p) => p.id !== person.id));
+          });
       }
     } else {
       const newPerson = {
@@ -67,6 +95,13 @@ const App = () => {
         number: newNumber,
       };
       list.create(newPerson).then((returnedPerson) => {
+        setNotification({
+          message: `${newPerson.name} was added successfully`,
+          style: "success",
+        });
+        setTimeout(() => {
+          setNotification({ message: null, style: null });
+        }, 5000);
         setPersons(persons.concat(newPerson));
       });
     }
@@ -82,13 +117,22 @@ const App = () => {
         .remove(person.id)
         .then((response) => {
           setPersons(persons.filter((p) => p.id !== person.id));
-          window.confirm(`${person.name} was deleted from the phonebook`);
+          setNotification({
+            message: `${person.name} removed successfully`,
+            style: "success",
+          });
+          setTimeout(() => {
+            setNotification({ message: null, style: null });
+          }, 5000);
         })
         .catch((error) => {
-          alert({
-            message: `${person.name} was already removed`,
+          setNotification({
+            message: `${person.name} has already been removed from server`,
             style: "error",
           });
+          setTimeout(() => {
+            setNotification({ message: null, style: null });
+          }, 5000);
           setPersons(persons.filter((p) => p.id !== person.id));
         });
   };
@@ -96,6 +140,7 @@ const App = () => {
   return (
     <>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter onFilter={handleFilterChange} />
       <h2>Add a new contact</h2>
       <ContactForm
