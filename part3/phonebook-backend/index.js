@@ -1,7 +1,6 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
-
-app.use(express.json());
 
 let persons = [
   {
@@ -25,6 +24,25 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
+
+// custom middleware for logging
+// const requestLogger = (request, response, next) => {
+//   console.log("Method:", request.method);
+//   console.log("Path:  ", request.path);
+//   console.log("Body:  ", request.body);
+//   console.log("---");
+//   next();
+// };
+// app.use(requestLogger);
+
+app.use(express.json());
+
+// custom token for :body (Calling morgan.token() using the same name as an existing token will overwrite that token definition.)
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+);
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
@@ -80,6 +98,12 @@ app.post("/api/persons", (request, response) => {
 
   response.json(person);
 });
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001;
 app.listen(PORT, () => {
