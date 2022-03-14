@@ -1,0 +1,16 @@
+GET http://localhost:3001/api/persons
+###
+GET http://localhost:3001/api/info
+###
+GET http://localhost:3001/api/persons/2
+###
+DELETE http://localhost:3001/api/persons/2
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Aditya Sharma",
+  "number": "1328282756"
+}
+
