@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 
@@ -35,7 +36,9 @@ let persons = [
 // };
 // app.use(requestLogger);
 
+
 app.use(express.json());
+app.use(cors())
 
 // custom token for :body (Calling morgan.token() using the same name as an existing token will overwrite that token definition.)
 morgan.token('body', (req, res) => JSON.stringify(req.body));
@@ -105,7 +108,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = 3001;
+const PORT = process.env.port || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

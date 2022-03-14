@@ -11,7 +11,9 @@
   "author": "Aditya Sharma",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.3",
+    "heroku": "^7.59.4",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
