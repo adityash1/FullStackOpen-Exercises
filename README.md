@@ -28,5 +28,4 @@
 <br/>
 ❌ Part 12: Containers
 <br/>
-❌ Part 13: Using relational databases 
-<br/>
+❌ Part 13: Using relational databases
