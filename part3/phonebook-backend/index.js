@@ -48,7 +48,11 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.json(persons);
+  res.send(build/index.html);
+});
+
+app.get("/index.html", (req, res) => {
+  res.send(build/index.html);
 });
 
 app.get("/api/persons", (req, res) => {
