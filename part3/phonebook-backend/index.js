@@ -36,16 +36,20 @@ let persons = [
 // };
 // app.use(requestLogger);
 
-
+app.use(express.static("build"));
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 // custom token for :body (Calling morgan.token() using the same name as an existing token will overwrite that token definition.)
-morgan.token('body', (req, res) => JSON.stringify(req.body));
+morgan.token("body", (req, res) => JSON.stringify(req.body));
 
 app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+  morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
+
+app.get("/", (req, res) => {
+  res.json(persons);
+});
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
@@ -103,10 +107,10 @@ app.post("/api/persons", (request, response) => {
 });
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+  response.status(404).send({ error: "unknown endpoint" });
+};
 
-app.use(unknownEndpoint)
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
