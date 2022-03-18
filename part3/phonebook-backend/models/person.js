@@ -8,11 +8,7 @@ const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
 mongoose
-  .connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(url)
 // eslint-disable-next-line no-unused-vars
   .then((result) => {
     console.log('connected to MongoDB')
@@ -46,7 +42,6 @@ personSchema.set('toJSON', {
   },
 })
 
-// eslint-disable-next-line
-phoneBookSchema.plugin(uniqVal)
+personSchema.plugin(uniqVal)
 
 module.exports = mongoose.model('Person', personSchema)

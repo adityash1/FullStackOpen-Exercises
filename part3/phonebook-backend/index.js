@@ -69,10 +69,6 @@ app.get('/api/persons/:id', (request, response, next) => {
       }
     })
     .catch((error) => next(error))
-    // .catch((error) => {
-    //   console.log(error);
-    //   response.status(400).send({ error: "malformatted id" });
-    // });
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -150,7 +146,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 
 // eslint-disable-next-line
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
