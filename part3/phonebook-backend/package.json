@@ -7,6 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
     "build:ui": "rmdir build /s /q && cd ../phonebook-frontend/ && npm run build && Xcopy /E /I build ..\\phonebook-backend\\build",
     "deploy": "cd .. && cd .. && git subtree push --prefix part3/phonebook-backend heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
@@ -20,9 +21,11 @@
     "express": "^4.17.3",
     "heroku": "^7.59.4",
     "mongoose": "^6.2.7",
+    "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.11.0",
     "nodemon": "^2.0.15"
   }
 }
