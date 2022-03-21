@@ -1,16 +1,20 @@
-# FullStackOpen 2022
+# `FullStackOpen 2022`
 
-## Exercises Solutions to the Full Stack Open 2022 by University of Helsinki
+### `About`
 
-✅ Part 0:  Fundamentals of Web apps
+> Learn `React`, `Redux`, `Node.js`, `MongoDB`, `GraphQL` and `TypeScript` in one go! This course will introduce you to modern `JavaScript`-based web development. The main focus is on building single page applications with `ReactJS` that use REST APIs built with `Node.js`.
+<br>
+Other topics include debugging applications, configuration, managing runtime environments and NoSQL databases.
+
+✅ Part 0:  Fundamentals of Web apps                                        
 <br/>
 ✅ Part 1:  Introduction to React 
 <br/>
 ✅ Part 2:  Communicating with server 
 <br/>
-☑️ Part 3:  Programming a server with NodeJS and Express 
+✅ Part 3:  Programming a server with NodeJS and Express 
 <br/>
-❌ Part 4:  Testing Express servers, user administration 
+☑️ Part 4:  Testing Express servers, user administration 
 <br/>
 ❌ Part 5:  Testing React apps 
 <br/>
