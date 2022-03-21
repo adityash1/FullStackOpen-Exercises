@@ -1,0 +1,13 @@
+GET http://localhost:3001/api/blogs
+###
+GET http://localhost:3001/api/blogs
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "title": "3 simple tricks to make your webapp 3X faster!",
+  "author": "Tanay Pratap",
+  "url": "https://tanaypratap.com/optimize-web-app-for-speed/",
+  "likes": 20
+}
