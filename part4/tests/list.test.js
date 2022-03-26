@@ -1,4 +1,4 @@
-const listHelper = require('../utils/list_helper')
+const listHelper = require('./list_helper')
 
 const blogs = [{
     _id: "5a422a851b54a676234d17f7",
@@ -37,46 +37,40 @@ test('dummy returns one', () => {
     expect(result).toBe(1)
 })
 
-describe('total likes', () => {
-
-    test('of empty list is zero', () => {
-        const result = listHelper.totalLikes([])
-        expect(result).toBe(0)
-    })
-
-    test('when list has only one blog equals the likes of that', () => {
+describe('likes', () => {
+    test('when list has only one blog, equals the likes of that', () => {
         const result = listHelper.totalLikes([blogs[0]])
         expect(result).toBe(blogs[0].likes)
     })
 
-    test('of a bigger list is calculated right', () => {
+    test('when list has a lot, equals the likes of that', () => {
         const result = listHelper.totalLikes(blogs)
         expect(result).toBe(34)
     })
-})
 
-test('show the favorite blog depending on the number of likes', () => {
-    const result = listHelper.favoriteBlog(blogs)
-    expect(result).toEqual({
-        title: "Canonical string reduction",
-        author: "Edsger W. Dijkstra",
-        likes: 12
+    test('show the favorite blog depend on likes number', () => {
+        const result = listHelper.favoriteBlog(blogs)
+        expect(result).toEqual(blogs[2])
     })
 })
 
-test('show the author having maximum amount of blogs', () => {
-    const result = listHelper.mostBlogs(blogs)
-    expect(result).toEqual({
-        author: "Edsger W. Dijkstra",
-        blogs: 2
+
+describe('Author', () => {
+    test('show the most blogs number author', () => {
+        const result = listHelper.mostBlogs(blogs)
+
+        expect(result).toEqual({
+            "author": "Edsger W. Dijkstra",
+            "blogs": 2
+        })
+    })
+
+    test('show the most likes author', () => {
+        const result = listHelper.mostLikes(blogs)
+
+        expect(result).toEqual({
+            "author": "Edsger W. Dijkstra",
+            "likes": 17
+        })
     })
 })
-
-test('show the author having maximum amount of likes', () => {
-    const result = listHelper.mostLikes(blogs)
-    expect(result).toEqual({
-        author: "Edsger W. Dijkstra",
-        likes: 17
-    })
-})
-

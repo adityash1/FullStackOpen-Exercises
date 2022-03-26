@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const dummy = (blogs) => {
     return 1
 }
@@ -43,19 +44,21 @@ const mostBlogs = (blogs) => {
 }
 
 const mostLikes = (blogs) => {
-    if (blogs.length === 0) {
-        return {}
-    } else {
-        let likesCounts = blogs.reduce((likesCount, blog) => {
-            likesCount[blog.author] = (likesCount[blog.author] || 0) + blog.likes
-            return likesCount
-        }, {})
-        let maxCount = Math.max(...Object.values(likesCounts))
-        let mostLiked = Object.keys(likesCounts).filter(author => likesCounts[author] === maxCount)
-        return {
-            author: mostLiked[0],
-            likes: maxCount
+    let authorWithMostLikes = {}
+    blogs.forEach(blog => {
+        if (blog.author in authorWithMostLikes) {
+            authorWithMostLikes[blog.author] += blog.likes
+        } else {
+            authorWithMostLikes[blog.author] = blog.likes
         }
+    })
+
+    const maxValue = Math.max(...Object.values(authorWithMostLikes))
+    const maxIndex = Object.keys(authorWithMostLikes).find(key => authorWithMostLikes[key] === maxValue)
+
+    return {
+        'author': maxIndex,
+        'likes': maxValue
     }
 }
 
