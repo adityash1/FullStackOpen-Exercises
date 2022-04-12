@@ -3,8 +3,9 @@ import React, { useState } from "react"
 import blogService from "../services/blogs"
 
 const Blog = (props) => {
+	const { blog, setBlogs, notifyWith } = props
+
 	const [visible, setVisible] = useState(false)
-	const [blog, setBlog] = useState(props.blog)
 
 	const hideWhenVisible = { display: visible ? "none" : "" }
 	const showWhenVisible = { display: visible ? "" : "none" }
@@ -21,7 +22,7 @@ const Blog = (props) => {
 		marginBottom: 5
 	}
 
-	const handleLikeChange = () => {
+	const handleLikeChange = async () => {
 		blogService.update(blog.id, {
 			"title": blog.title,
 			"author": blog.author,
@@ -29,9 +30,24 @@ const Blog = (props) => {
 			"likes": blog.likes + 1,
 		})
 
-		blogService.getBlogByID(blog.id).then(
-			data => setBlog(data)
-		)
+		await blogService.getBlogByID(blog.id)
+
+		const blogs = await blogService.getAll()
+		setBlogs(blogs)
+
+		notifyWith(`blog likes+1 ${blog.title} by ${blog.author}`)
+	}
+
+	const handleRemove = async () => {
+		if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+			await blogService.remove(blog.id)
+
+			let blogs = await blogService.getAll()
+			blogs.sort((a, b) => b.likes - a.likes)
+			setBlogs(blogs)
+
+			notifyWith(`Removed blog ${blog.title} by ${blog.author}`, "error")
+		}
 	}
 
 	return (
@@ -50,6 +66,7 @@ const Blog = (props) => {
 					{blog.likes} <button onClick={handleLikeChange}>like</button>
 				</div>
 				<div>{blog.author}</div>
+				<button onClick={handleRemove}>remove</button>
 			</div>
 		</div>
 	)
