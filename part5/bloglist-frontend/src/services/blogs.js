@@ -14,6 +14,11 @@ const getAll = () => {
 	return request.then(response => response.data)
 }
 
+const getBlogByID = (id) => {
+	const request = axios.get(`${baseUrl}/${id}`)
+	return request.then(response => response.data)
+}
+
 const create = async newObject => {
 	const config = {
 		"headers": { "Authorization": token },
@@ -30,6 +35,7 @@ const update = (id, newObject) => {
 
 export default {
 	getAll,
+	getBlogByID,
 	create,
 	update,
 	setToken
