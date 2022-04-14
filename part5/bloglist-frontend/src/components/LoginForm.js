@@ -32,15 +32,13 @@ const LoginForm = props => {
 	const handleLogout = () => {
 		window.localStorage.removeItem("loggedBlogappUser")
 		setUser(null)
-
 		notifyWith("Log out")
 		setTimeout(() => { }, 3000)
 	}
 
-	let html
 
 	if (user) {
-		html = (
+		return (
 			<div>
 				<p>
 					{user.name} logged in
@@ -49,13 +47,13 @@ const LoginForm = props => {
 			</div>
 		)
 	} else {
-		html = (
+		return (
 			<div>
 				<h2>log in to application</h2>
 				<div>
 					<form onSubmit={handleLogin}>
 						<div>
-              username
+							username
 							<input
 								type="text"
 								value={username}
@@ -64,7 +62,7 @@ const LoginForm = props => {
 							/>
 						</div>
 						<div>
-              password
+							password
 							<input
 								type="password"
 								value={password}
@@ -78,8 +76,6 @@ const LoginForm = props => {
 			</div>
 		)
 	}
-
-	return html
 }
 
 export default LoginForm

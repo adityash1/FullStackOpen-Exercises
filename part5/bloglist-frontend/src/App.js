@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 import BlogForm from "./components/BlogForm"
 import blogService from "./services/blogs"
@@ -13,6 +13,8 @@ const App = () => {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [user, setUser] = useState(null)
+
+	const createBlogRef = useRef()
 
 	useEffect(() => {
 		const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser")
@@ -36,11 +38,21 @@ const App = () => {
 		setTimeout(() => { setNotification(null) }, 3000)
 	}
 
+	const addBlog = (blogObject) => {
+		createBlogRef.current.toggleVisibility()
+		blogService.create(blogObject).then(returnedBlog =>
+			setBlogs(blogs.concat(returnedBlog))
+		)
+
+		notifyWith(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+		setTimeout(() => { }, 3000)
+	}
+
 	const createBlog = () => {
 		if (user) {
 			return (
-				<Togglable buttonLabel='new blog'>
-					<CreateBlog blogs={blogs} setBlogs={setBlogs} notifyWith={notifyWith} />
+				<Togglable buttonLabel='new blog' ref={createBlogRef}>
+					<CreateBlog createBlog={addBlog} />
 				</Togglable>
 			)
 		}
@@ -59,10 +71,10 @@ const App = () => {
 				password={password}
 				setPassword={setPassword}
 			/>
-			{ createBlog()}
+			{createBlog()}
 			{
 				user &&
-        <BlogForm blogs={blogs} setBlogs={setBlogs} notifyWith={notifyWith}/>
+				<BlogForm blogs={blogs} setBlogs={setBlogs} notifyWith={notifyWith} />
 			}
 		</div>
 	)
