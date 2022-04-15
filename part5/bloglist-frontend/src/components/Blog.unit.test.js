@@ -35,3 +35,23 @@ test('on clicking view button, url & likes are shown', () => {
   expect(blogAll).toHaveTextContent(`${blog.url}`)
   expect(blogAll).toHaveTextContent(`${blog.likes}`)
 })
+
+test('two click on like button will increase two likes', async () => {
+  const mockHandler = jest.fn()
+
+  const component = render(
+    <Blog blog={blog} handleLikeChange={mockHandler} />
+  )
+
+  const buttonView = component.getByText('view')
+  userEvent.click(buttonView)
+
+  const blogAll = component.container.querySelector('.blogAll')
+  expect(blogAll).toBeVisible()
+
+  const buttonLike = component.getByText('like')
+  userEvent.click(buttonLike)
+  userEvent.click(buttonLike)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+})
