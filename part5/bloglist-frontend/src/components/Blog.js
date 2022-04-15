@@ -30,7 +30,7 @@ const Blog = (props) => {
           {blog.title} <button onClick={toggleVisibility}>hide</button>
         </div>
         <div>{blog.url}</div>
-        <div>
+        <div id='likes'>
           {blog.likes} <button onClick={() => handleLikeChange(blog)}>like</button>
         </div>
         <div>{blog.author}</div>
