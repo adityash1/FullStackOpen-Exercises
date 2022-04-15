@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 const blog = {
@@ -18,4 +19,19 @@ test ('default blog view, shows only title & author', () => {
   expect(blogTitle).toBeDefined()
   expect(blogTitle).toBeVisible()
   expect(blogTitle).toHaveTextContent(`${blog.title} by ${blog.author}`)
+})
+
+test('on clicking view button, url & likes are shown', () => {
+  const component = render(
+    <Blog blog={blog} />
+  )
+
+  const buttonView = component.getByText('view')
+  userEvent.click(buttonView)
+
+
+  const blogAll = component.container.querySelector('.blogAll')
+  expect(blogAll).toBeVisible()
+  expect(blogAll).toHaveTextContent(`${blog.url}`)
+  expect(blogAll).toHaveTextContent(`${blog.likes}`)
 })
