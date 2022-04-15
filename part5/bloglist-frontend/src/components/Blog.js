@@ -52,10 +52,10 @@ const Blog = (props) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible}>
-        {blog.title} <button onClick={toggleVisibility}>view</button>
+      <div style={hideWhenVisible} className='blogTitle'>
+        {blog.title} by {blog.author}<button onClick={toggleVisibility}>view</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className='blogAll'>
         <div>
           {blog.title} <button onClick={toggleVisibility}>hide</button>
         </div>

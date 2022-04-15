@@ -1,4 +1,5 @@
-export default {
+// eslint-disable-next-line no-undef
+module.exports = {
   'env': {
     'browser': true,
     'es6': true,
@@ -10,9 +11,10 @@ export default {
   ],
   'parserOptions': {
     'ecmaFeatures': {
-      'jsx': true
+      'jsx': true,
+      'modules': true
     },
-    'ecmaVersion': 2018,
+    'ecmaVersion': 'latest',
     'sourceType': 'module'
   },
   'plugins': [
