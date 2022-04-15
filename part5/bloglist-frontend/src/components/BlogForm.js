@@ -1,9 +1,25 @@
 import Blog from './Blog'
+import CreateBlog from './CreateBlog'
+import Togglable from './Togglable'
 
 import blogService from '../services/blogs'
 
 const BlogForm = (props) => {
   const { blogs, setBlogs, notifyWith } = props
+
+  const createBlog = () => (
+    <Togglable buttonLabel='new blog'>
+      <CreateBlog addBlog={addBlog} />
+    </Togglable>
+  )
+
+  const addBlog = (blogObject) => {
+    blogService.create(blogObject).then(returnedBlog =>
+      setBlogs(blogs.concat(returnedBlog))
+    )
+
+    notifyWith(`a new blog ${blogObject.title} by ${blogObject.author}`)
+  }
 
   const handleLikeChange = async (blog) => {
     blogService.update(blog.id, {
@@ -34,18 +50,23 @@ const BlogForm = (props) => {
   }
 
   return (
-    <div>
-      {
-        blogs.map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleLikeChange={handleLikeChange}
-            handleRemove={handleRemove}
-          />
-        )
-      }
-    </div>
+    <>
+      <div>
+        {createBlog()}
+      </div>
+      <div>
+        {
+          blogs.map(blog =>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLikeChange={handleLikeChange}
+              handleRemove={handleRemove}
+            />
+          )
+        }
+      </div>
+    </>
   )
 }
 
