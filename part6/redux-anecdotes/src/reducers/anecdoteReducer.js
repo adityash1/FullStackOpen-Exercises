@@ -22,9 +22,10 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'VOTE':
-      return state.map(anec =>
+      const sortedState = state.map(anec =>
         anec.id !== action.data.id ? anec : { ...anec, votes: anec.votes + 1 }
       )
+      return sortedState.sort((a, b) => b.votes - a.votes)
     case 'NEW_ANECDOTE':
       return [...state, action.data]
     default:
