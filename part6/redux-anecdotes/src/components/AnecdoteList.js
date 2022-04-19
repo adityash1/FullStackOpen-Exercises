@@ -4,13 +4,13 @@ import { notify, mute } from '../reducers/notificationReducer'
 
 const Anecdote = ({ anecdote, handleClick }) => {
     return (
-        <div key={anecdote.id}>
+        <div>
             <div>
                 {anecdote.content}
             </div>
             <div>
                 has {anecdote.votes}
-                <button onClick={() => handleClick(anecdote)}>vote</button>
+                <button onClick={handleClick}>vote</button>
             </div>
         </div>
     )
@@ -18,7 +18,6 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const AnecdoteList = () => {
     const dispatch = useDispatch()
-    const anecdotes = useSelector(state => state.anecdotes)
 
     const handleVote = (anecdote) => {
         dispatch(vote(anecdote.id))
@@ -26,21 +25,26 @@ const AnecdoteList = () => {
         setTimeout(() => dispatch(mute()), 3000)
     }
 
-    const anecdotesToShow = useSelector(state => {
-        if (state.filter) {
-            return anecdotes.filter(a => a.content.toLowerCase().includes(state.filter.toLowerCase()))
+    const anecdotes = useSelector(({ filter, anecdotes }) => {
+        let res = anecdotes
+        if (filter) {
+            res = anecdotes.filter(anecdote =>
+                anecdote.content.includes(filter))
         }
-        return anecdotes
+
+        return res
     })
 
     return (
         <div>
-            {
-                anecdotesToShow.map(anecdote =>
-                    <Anecdote key={anecdote.id} anecdote={anecdote}
-                        handleClick={() => handleVote(anecdote)} />
-                )
-            }
+            <div>
+                {
+                    anecdotes.map(anecdote =>
+                        <Anecdote key={anecdote.id} anecdote={anecdote}
+                            handleClick={() => handleVote(anecdote)} />
+                    )
+                }
+            </div>
         </div>
     )
 }
