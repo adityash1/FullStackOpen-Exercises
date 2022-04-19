@@ -29,5 +29,13 @@ const notificationSlice = createSlice({
 //     'data': { message }
 // })
 
+export const setNotification = (message, timeout = 5) => dispatch => {
+    timeout = timeout * 1000
+    dispatch(notify(message))
+    setTimeout(() => {
+        dispatch(mute())
+    }, timeout)
+}
+
 export const { notify, mute } = notificationSlice.actions
 export default notificationSlice.reducer
