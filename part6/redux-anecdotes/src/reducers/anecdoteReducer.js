@@ -59,7 +59,6 @@ const anecdoteSlice = createSlice({
         ...anecdoteToChange,
         votes: anecdoteToChange.votes + 1
       }
-      console.log('changedAnecdote', changedAnecdote)
       const sortedState = state.map(note => note.id !== id ?
         note : changedAnecdote
       )
