@@ -17,9 +17,9 @@ Other topics include debugging applications, configuration, managing runtime env
 
 ### ✅ [Part 5:  Testing React apps](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part5)
 
-### ☑️ [Part 6:  State management with Redux](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part6)
+### ✅ [Part 6:  State management with Redux](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part6)
 
-### ❌ Part 7:  React router, custom hooks, styling app with CSS and webpack 
+### ☑️ [Part 7:  React router, custom hooks, styling app with CSS and webpack](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part6)
 
 ### ❌ Part 8:  GraphQL 
 
