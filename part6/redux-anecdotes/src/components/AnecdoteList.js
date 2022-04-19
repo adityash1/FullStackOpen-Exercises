@@ -31,7 +31,6 @@ const AnecdoteList = () => {
             res = anecdotes.filter(anecdote =>
                 anecdote.content.includes(filter))
         }
-
         return res
     })
 
