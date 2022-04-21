@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Route, Routes } from 'react-router-dom'
+import { Link, useNavigate, Route, Routes } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -10,6 +10,17 @@ const Menu = () => {
       <Link style={padding} to='/'>anecdotes</Link>
       <Link style={padding} to='/create'>create new</Link>
       <Link style={padding} to='/about'>about</Link>
+    </div>
+  )
+}
+
+const Notification = ({ notification }) => {
+  if (notification === null) {
+    return null
+  }
+  return (
+    <div>
+      {notification}
     </div>
   )
 }
@@ -50,10 +61,11 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const navigate = useNavigate()
+
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -63,6 +75,8 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.notify(`a new anecdote '${content}' created!`, 5000)
+    navigate(`/`)
   }
 
   return (
@@ -113,6 +127,11 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote))
   }
 
+  const notify = (message, time) => {
+    setNotification(message)
+    setTimeout(() => setNotification(null), time)
+  }
+
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
 
@@ -131,11 +150,10 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
+      <Notification notification={notification} />
       <About />
-      <CreateNew addNew={addNew} />
       <Routes>
-        <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/create" element={<CreateNew addNew={addNew} notify={notify} />} />
         <Route path="/about" element={<About />} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
       </Routes>
