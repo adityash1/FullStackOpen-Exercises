@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import {
-  Routes,
-  Route,
-  Link,
-  Switch
-} from "react-router-dom"
+import { Link, Route, Routes } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -12,9 +7,9 @@ const Menu = () => {
   }
   return (
     <div>
-      <Link style={padding} to="/">anecdotes</Link>
-      <Link style={padding} to="/create">create new</Link>
-      <Link style={padding} to="/about">about</Link>
+      <Link style={padding} to='/'>anecdotes</Link>
+      <Link style={padding} to='/create'>create new</Link>
+      <Link style={padding} to='/about'>about</Link>
     </div>
   )
 }
@@ -132,21 +127,16 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      <Switch>
+      <AnecdoteList anecdotes={anecdotes} />
+      <About />
+      <CreateNew addNew={addNew} />
       <Routes>
-        <Route path="/">
-          <AnecdoteList anecdotes={anecdotes} />
-        </Route>
-        <Route path="/create">
-          <CreateNew addNew={addNew} />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
+        <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
       </Routes>
-      </Switch>
       <Footer />
-    </div>
+    </div >
   )
 }
 
