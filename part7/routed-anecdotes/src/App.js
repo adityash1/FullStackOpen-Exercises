@@ -1,8 +1,10 @@
+/* eslint-disable no-undef */
 import { useState } from 'react'
 import { Link, useNavigate, Route, Routes } from 'react-router-dom'
 import { useFormInput } from './hooks/index'
+import { omit } from 'lodash'
 
-const Menu = () => {
+function Menu() {
   const padding = {
     paddingRight: 5
   }
@@ -91,15 +93,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit} >
         <div>
           content
-          <input {...content} />
+          <input {...omit(content, 'reset')} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...omit(author, 'reset')} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...omit(info, 'reset')} />
         </div>
         <button type='submit'>create</button>
         <button type='button' onClick={handleReset}>reset</button>
