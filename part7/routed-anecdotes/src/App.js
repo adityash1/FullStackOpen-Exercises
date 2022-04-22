@@ -56,7 +56,6 @@ const About = () => (
 const Footer = () => (
   <div>
     Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
-
     See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
   </div>
 )
@@ -68,22 +67,28 @@ const CreateNew = (props) => {
   const author = useFormInput('text')
   const info = useFormInput('text')
 
+  const handleReset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
-      votes: 0
+      'content': content.value,
+      'author': author.value,
+      'info': info.value,
+      'votes': 0,
     })
-    props.notify(`a new anecdote '${content}' created!`, 5000)
+    props.notify(`a new anecdote ${content.value} created!`, 5000)
     navigate(`/`)
   }
 
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <div>
           content
           <input {...content} />
@@ -96,35 +101,36 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button type='button' onClick={handleReset}>reset</button>
       </form>
-    </div>
+    </div >
   )
 
 }
 
 const App = () => {
-  const [anecdotes, setAnecdotes] = useState([
-    {
-      content: 'If it hurts, do it more often',
-      author: 'Jez Humble',
-      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
-      votes: 0,
-      id: 1
-    },
-    {
-      content: 'Premature optimization is the root of all evil',
-      author: 'Donald Knuth',
-      info: 'http://wiki.c2.com/?PrematureOptimization',
-      votes: 0,
-      id: 2
-    }
-  ])
+  const initialAnecdotes = [{
+    content: 'If it hurts, do it more often',
+    author: 'Jez Humble',
+    info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
+    votes: 0,
+    id: 1
+  },
+  {
+    content: 'Premature optimization is the root of all evil',
+    author: 'Donald Knuth',
+    info: 'http://wiki.c2.com/?PrematureOptimization',
+    votes: 0,
+    id: 2
+  }
+  ]
 
   const [notification, setNotification] = useState('')
+  const [anecdotes, setAnecdotes] = useState(initialAnecdotes)
 
   const addNew = (anecdote) => {
-    anecdote.id = Math.round(Math.random() * 10000)
+    anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
   }
 
