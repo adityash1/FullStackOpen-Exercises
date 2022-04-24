@@ -1,16 +1,19 @@
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import { setUser } from '../reducers/userReducer'
 
 import { setNotification } from "../reducers/notificationReducer";
 
-import PropTypes from "prop-types";
-
-import blogService from "../services/blogs";
 import loginService from "../services/login";
 
-const LoginForm = (props) => {
+const LoginForm = () => {
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch();
 
-  const { user, setUser, username, setUsername, password, setPassword } = props;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -20,14 +23,11 @@ const LoginForm = (props) => {
         username,
         password,
       });
-
+      dispatch(setUser(user));
+      dispatch(setNotification(`welcome ${user.name}`));
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-
-      blogService.setToken(user.token);
-      setUser(user);
       setUsername("");
       setPassword("");
-      dispatch(setNotification("logged in", "success", 3));
     } catch (exception) {
       console.log(exception);
       dispatch(setNotification("wrong username or password"));
@@ -36,7 +36,7 @@ const LoginForm = (props) => {
 
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogappUser");
-    setUser(null);
+    dispatch(setUser(null));
     dispatch(setNotification("logged out"));
   };
 
@@ -79,14 +79,6 @@ const LoginForm = (props) => {
       </div>
     );
   }
-};
-
-LoginForm.propTypes = {
-  setUser: PropTypes.func.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
 };
 
 export default LoginForm;

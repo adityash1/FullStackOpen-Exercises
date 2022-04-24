@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { setUser } from "./reducers/userReducer";
 
 import BlogForm from "./components/BlogForm";
-import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
 
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      dispatch(setUser(user));
     }
   }, []);
 
@@ -24,14 +26,7 @@ const App = () => {
     <div>
       {user && <h1>blogs</h1>}
       <Notification />
-      <LoginForm
-        user={user}
-        setUser={setUser}
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-      />
+      <LoginForm />
       {user && <BlogForm />}
     </div>
   );
