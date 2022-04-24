@@ -6,7 +6,6 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -21,13 +20,6 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
-    });
-  }, []);
-
   return (
     <div>
       {user && <h1>blogs</h1>}
@@ -40,7 +32,7 @@ const App = () => {
         password={password}
         setPassword={setPassword}
       />
-      {user && <BlogForm blogs={blogs} setBlogs={setBlogs} />}
+      {user && <BlogForm />}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const Blog = (props) => {
-  const { blog, handleLikeChange, handleRemove } = props;
+  const { blog/* , handleLikeChange, handleRemove */ } = props;
 
   const [visible, setVisible] = useState(false);
 
@@ -33,10 +33,10 @@ const Blog = (props) => {
         <div>{blog.url}</div>
         <div id="likes">
           {blog.likes}{" "}
-          <button onClick={() => handleLikeChange(blog)}>like</button>
+          {/* <button onClick={() => handleLikeChange(blog)}>like</button> */}
         </div>
         <div>{blog.author}</div>
-        <button onClick={() => handleRemove(blog)}>remove</button>
+        {/* <button onClick={() => handleRemove(blog)}>remove</button> */}
       </div>
     </div>
   );

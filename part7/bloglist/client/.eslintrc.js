@@ -15,7 +15,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react", "jest", "cypress", "prettier"],
+  plugins: ["react", "jest", "cypress"],
   rules: {
     // indent: ["error", 2],
     "linebreak-style": ["error", "unix"],

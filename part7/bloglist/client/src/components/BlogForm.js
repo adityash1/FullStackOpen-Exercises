@@ -1,73 +1,62 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { setNotification } from "../reducers/notificationReducer";
+import { useEffect } from "react";
+
+import { initializeBlogs } from "../reducers/blogReducer";
 
 import Blog from "./Blog";
 import CreateBlog from "./CreateBlog";
 import Togglable from "./Togglable";
 
-import blogService from "../services/blogs";
-
-const BlogForm = (props) => {
+const BlogForm = () => {
   const dispatch = useDispatch();
 
-  const { blogs, setBlogs } = props;
+  useEffect(() => {
+    dispatch(initializeBlogs());
+  }, []);
 
-  const createBlog = () => (
-    <Togglable buttonLabel="new blog">
-      <CreateBlog addBlog={addBlog} />
-    </Togglable>
-  );
+  const blogs = useSelector((state) => state.blogs);
 
-  const addBlog = (blogObject) => {
-    blogService
-      .create(blogObject)
-      .then((returnedBlog) => setBlogs(blogs.concat(returnedBlog)))
-      .then(() => {
-        dispatch(
-          setNotification(
-            `a new blog ${blogObject.title} by ${blogObject.author} added`
-          )
-        );
-      });
-  };
+  // const handleLikeChange = async (blog) => {
+  //   blogService.update(blog.id, {
+  //     title: blog.title,
+  //     author: blog.author,
+  //     url: blog.url,
+  //     likes: blog.likes + 1,
+  //   });
 
-  const handleLikeChange = async (blog) => {
-    blogService.update(blog.id, {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-    });
+  //   await blogService.getBlogByID(blog.id);
 
-    await blogService.getBlogByID(blog.id);
+  //   const blogs = await blogService.getAll();
+  //   setBlogs(blogs);
+  //   dispatch(setNotification(`liked blog ${blog.title} by ${blog.author}`));
+  // };
 
-    const blogs = await blogService.getAll();
-    setBlogs(blogs);
-    dispatch(setNotification(`liked blog ${blog.title} by ${blog.author}`));
-  };
+  // const handleRemove = async (blog) => {
+  //   if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+  //     await blogService.remove(blog.id);
 
-  const handleRemove = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id);
-
-      let blogs = await blogService.getAll();
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
-      dispatch(setNotification(`removed blog ${blog.title} by ${blog.author}`));
-    }
-  };
+  //     let blogs = await blogService.getAll();
+  //     blogs.sort((a, b) => b.likes - a.likes);
+  //     setBlogs(blogs);
+  //     dispatch(setNotification(`removed blog ${blog.title} by ${blog.author}`));
+  //   }
+  // };
 
   return (
     <>
-      <div>{createBlog()}</div>
+      <div>
+        <Togglable buttonLabel="new blog">
+          <CreateBlog />
+        </Togglable>
+    </div>
       <div>
         {blogs.map((blog) => (
           <Blog
             key={blog.id}
             blog={blog}
-            handleLikeChange={handleLikeChange}
-            handleRemove={handleRemove}
+            // handleLikeChange={handleLikeChange}
+            // handleRemove={handleRemove}
           />
         ))}
       </div>
