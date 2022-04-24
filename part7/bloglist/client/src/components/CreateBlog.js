@@ -1,51 +1,45 @@
-import { useDispatch } from 'react-redux'
-import { useState } from 'react';
-import { createBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch } from "react-redux";
+import { createBlog } from "../reducers/blogReducer";
+import { setNotification } from "../reducers/notificationReducer";
+import { useField } from "../hooks";
+import { omit } from "lodash";
 
 const CreateBlog = () => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const title = useField("text");
+  const author = useField("text");
+  const url = useField("text");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const addBlog = (event) => {
-    event.preventDefault()
-    dispatch(createBlog({ title, author, url }))
-    setTitle("")
-    setAuthor("")
-    setUrl("")
-    dispatch(setNotification("a new blog ${title} by ${author} added"))
-  }
+    event.preventDefault();
+    dispatch(
+      createBlog({
+        title: title.value,
+        author: author.value,
+        url: url.value,
+      })
+    );
+    dispatch(
+      setNotification(`a new blog by ${title.value} by ${author.value} added`)
+    );
+    title.reset();
+    author.reset();
+    url.reset();
+  };
 
   return (
     <div>
       <h2>create new</h2>
       <form onSubmit={addBlog}>
         <div>
-          title:{" "}
-          <input
-            id="title"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
+          title: <input {...omit(title, "reset")} />
         </div>
         <div>
-          author:{" "}
-          <input
-            id="author"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+          author: <input {...omit(author, "reset")} />
         </div>
         <div>
-          url:{" "}
-          <input
-            id="url"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
+          url: <input {...omit(url, "reset")} />
         </div>
         <button id="create-button" type="submit">
           create

@@ -1,17 +1,13 @@
-import { useState } from "react";
-
 import { useDispatch } from "react-redux";
 
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 
+import { useVisible } from "../hooks";
+
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
-
-  const [visible, setVisible] = useState(false);
-
-  const hideWhenVisible = { display: visible ? "none" : "" };
-  const showWhenVisible = { display: visible ? "" : "none" };
+  const visible = useVisible();
 
   const handleLikeChange = () => {
     const newObject = {
@@ -32,10 +28,6 @@ const Blog = ({ blog }) => {
     }
   };
 
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -46,13 +38,13 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible} className="blogTitle">
+      <div style={visible.hideWhenVisible} className="blogTitle">
         {blog.title} by {blog.author}
-        <button onClick={toggleVisibility}>view</button>
+        <button onClick={visible.toggleVisibility}>view</button>
       </div>
-      <div style={showWhenVisible} className="blogAll">
+      <div style={visible.showWhenVisible} className="blogAll">
         <div>
-          {blog.title} <button onClick={toggleVisibility}>hide</button>
+          {blog.title} <button onClick={visible.toggleVisibility}>hide</button>
         </div>
         <div>{blog.url}</div>
         <div id="likes">

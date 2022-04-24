@@ -1,33 +1,23 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useDispatch, useSelector } from 'react-redux'
-
-import { setUser } from '../reducers/userReducer'
+import { setUser } from "../reducers/userReducer";
 
 import { setNotification } from "../reducers/notificationReducer";
 
-import loginService from "../services/login";
+import { useLogin } from "../hooks";
 
 const LoginForm = () => {
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const credentials = useLogin("http://localhost:3001/api/login");
 
   const handleLogin = async (event) => {
     event.preventDefault();
 
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
+      const user = await credentials.login();
       dispatch(setUser(user));
       dispatch(setNotification(`welcome ${user.name}`));
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      setUsername("");
-      setPassword("");
     } catch (exception) {
       console.log(exception);
       dispatch(setNotification("wrong username or password"));
@@ -35,7 +25,7 @@ const LoginForm = () => {
   };
 
   const handleLogout = () => {
-    window.localStorage.removeItem("loggedBlogappUser");
+    credentials.logout();
     dispatch(setUser(null));
     dispatch(setNotification("logged out"));
   };
@@ -57,21 +47,11 @@ const LoginForm = () => {
           <form onSubmit={handleLogin}>
             <div>
               username
-              <input
-                type="text"
-                value={username}
-                name="Username"
-                onChange={({ target }) => setUsername(target.value)}
-              />
+              <input {...credentials.username} />
             </div>
             <div>
               password
-              <input
-                type="password"
-                value={password}
-                name="Password"
-                onChange={({ target }) => setPassword(target.value)}
-              />
+              <input {...credentials.password} />
             </div>
             <button type="submit">login</button>
           </form>

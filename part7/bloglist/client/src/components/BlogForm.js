@@ -29,8 +29,6 @@ const BlogForm = () => {
           <Blog
             key={blog.id}
             blog={blog}
-            // handleLikeChange={handleLikeChange}
-            // handleRemove={handleRemove}
           />
         ))}
       </div>
