@@ -1,12 +1,36 @@
 import { useState } from "react";
 
-const Blog = (props) => {
-  const { blog/* , handleLikeChange, handleRemove */ } = props;
+import { useDispatch } from "react-redux";
+
+import { likeBlog, removeBlog } from "../reducers/blogReducer";
+import { setNotification } from "../reducers/notificationReducer";
+
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false);
 
   const hideWhenVisible = { display: visible ? "none" : "" };
   const showWhenVisible = { display: visible ? "" : "none" };
+
+  const handleLikeChange = () => {
+    const newObject = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+    };
+
+    dispatch(likeBlog(blog.id, newObject));
+    dispatch(setNotification(`liked blog ${blog.title} by ${blog.author}`));
+  };
+
+  const handleRemove = () => {
+    if (window.confirm(`remove blog ${blog.title} by ${blog.author}`)) {
+      dispatch(removeBlog(blog.id));
+      dispatch(setNotification(`removed blog ${blog.title} by ${blog.author}`));
+    }
+  };
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -33,10 +57,10 @@ const Blog = (props) => {
         <div>{blog.url}</div>
         <div id="likes">
           {blog.likes}{" "}
-          {/* <button onClick={() => handleLikeChange(blog)}>like</button> */}
+          <button onClick={() => handleLikeChange(blog)}>like</button>
         </div>
         <div>{blog.author}</div>
-        {/* <button onClick={() => handleRemove(blog)}>remove</button> */}
+        <button onClick={() => handleRemove(blog)}>remove</button>
       </div>
     </div>
   );
