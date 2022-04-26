@@ -1,5 +1,5 @@
-const { ApolloServer, gql } = require('apollo-server');
-const { nanoid } = require('nanoid');
+const { ApolloServer, gql } = require('apollo-server')
+const { nanoid } = require('nanoid')
 
 let authors = [
   {
@@ -105,6 +105,7 @@ const typeDefs = gql`
       published: Int!
       genres: [String!]!
     ): Book
+    editAuthor(name: String!, setBornTo: Int!): Author
   }
 `
 
@@ -138,12 +139,26 @@ const resolvers = {
         })
       }
 
-      const book = {
+      const newBook = {
         ...args,
         id: nanoid(),
       }
-      books = books.concat(book)
-      return book
+      books = books.concat(newBook)
+      return newBook
+    },
+    editAuthor: (_, args) => {
+      const author = authors.find((author) => author.name === args.name)
+      if (!author) {
+        return null
+      }
+      const newAuthor = {
+        ...author,
+        born: args.setBornTo,
+      }
+      authors = authors.map((author) =>
+        author.name === args.name ? newAuthor : author
+      )
+      return newAuthor
     },
   },
 }
