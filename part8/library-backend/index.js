@@ -1,8 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { nanoid } = require('nanoid');
-// import { nanoid } from 'nanoid'
-// import pkg from 'apollo-server'
-// const { ApolloServer, gql } = pkg
 
 let authors = [
   {
