@@ -1,4 +1,8 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql } = require('apollo-server');
+const { nanoid } = require('nanoid');
+// import { nanoid } from 'nanoid'
+// import pkg from 'apollo-server'
+// const { ApolloServer, gql } = pkg
 
 let authors = [
   {
@@ -77,7 +81,6 @@ let books = [
     genres: ['classic', 'revolution'],
   },
 ]
-
 const typeDefs = gql`
   type Author {
     id: ID!
@@ -98,6 +101,14 @@ const typeDefs = gql`
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
   }
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
+  }
 `
 
 const resolvers = {
@@ -115,9 +126,28 @@ const resolvers = {
     },
     allAuthors: (root) => authors,
   },
+
   Author: {
     bookCount: (root) =>
       books.filter((book) => book.author === root.name).length,
+  },
+  Mutation: {
+    addBook: (_, args) => {
+      if (!authors.find((author) => author.name === args.author)) {
+        authors.concat({
+          name: args.author,
+          id: nanoid(),
+          born: null,
+        })
+      }
+
+      const book = {
+        ...args,
+        id: nanoid(),
+      }
+      books = books.concat(book)
+      return book
+    },
   },
 }
 
@@ -125,7 +155,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 })
-
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
