@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import blogService from "../services/blogs";
 
 const userSlice = createSlice({
-  name: "users",
+  name: "user",
   initialState: null,
   reducers: {
     set: (_, action) => {
@@ -18,13 +18,11 @@ const userSlice = createSlice({
 export const setUser = (user) => {
   return async (dispatch) => {
     dispatch(set(user));
-  }
+  };
 };
 
 export const { set } = userSlice.actions;
 export default userSlice.reducer;
-
-
 
 // const reducer = (state = null, action) => {
 //   switch (action.type) {

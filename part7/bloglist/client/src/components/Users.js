@@ -1,14 +1,8 @@
 import { useSelector } from "react-redux";
-
-const User = ({ user }) => (
-  <tr>
-    <td>{user.user.username}</td>
-    <td>{user.blogs.length}</td>
-  </tr>
-);
+import { User } from "./User";
 
 const Users = () => {
-  const users = useSelector((state) => state);
+  const users = useSelector((state) => state.users);
 
   return (
     <div>
@@ -20,10 +14,11 @@ const Users = () => {
             <th>blogs created</th>
           </tr>
         </thead>
-        <tbody>{<User key={users.id} user={users} />}</tbody>
-        {/* {users.map((user) => (
+        <tbody>
+          {users.map((user) => (
             <User key={user.id} user={user} />
-          ))} */}
+          ))}
+        </tbody>
       </table>
     </div>
   );
