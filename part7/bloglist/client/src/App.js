@@ -1,3 +1,5 @@
+import Container from "@mui/material/Container";
+
 import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +9,7 @@ import { setUser } from "./reducers/userReducer";
 import BlogForm from "./components/BlogForm";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
+import Users from "./components/Users";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -22,12 +25,13 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <Container maxWidth="sm">
       {user && <h1>blogs</h1>}
       <Notification />
       <LoginForm />
       {user && <BlogForm />}
-    </div>
+      {user && <Users />}
+    </Container>
   );
 };
 
