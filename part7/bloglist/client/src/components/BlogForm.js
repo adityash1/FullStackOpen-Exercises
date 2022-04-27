@@ -12,7 +12,7 @@ const BlogForm = () => {
     return (
       <>
         <div>
-          <Togglable buttonLabel="new blog">
+          <Togglable buttonLabel="create new">
             <CreateBlog />
           </Togglable>
         </div>

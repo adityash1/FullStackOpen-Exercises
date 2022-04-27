@@ -8,9 +8,10 @@ import Notification from "./components/Notification";
 import Users from "./components/Users";
 import { UserDetail } from "./components/User";
 import { BlogDetails } from "./components/Blog";
-import { Routes, Route, useMatch } from "react-router-dom";
+import { Routes, Route, useMatch, /* Link */ } from "react-router-dom";
 import { initializeUsers } from "./reducers/usersReducer";
 import { initializeBlogs } from "./reducers/blogReducer";
+import NavigationMenu from "./components/NavigationMenu";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,12 @@ const App = () => {
 
   return (
     <Container maxWidth="sm">
-      {user && <h1>Blogs</h1>}
+      {/* <div>
+        <Link to="/notes">blogs</Link>
+        <Link to="/users">users</Link><LoginForm />
+      </div> */}
+      <NavigationMenu />
+      {user && <h1>Blog App</h1>}
       <Notification />
       <LoginForm />
       <Routes>
