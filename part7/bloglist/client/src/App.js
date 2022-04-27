@@ -7,6 +7,7 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import Users from "./components/Users";
 import { UserDetail } from "./components/User";
+import { BlogDetails } from "./components/Blog";
 import { Routes, Route, useMatch } from "react-router-dom";
 import { initializeUsers } from "./reducers/usersReducer";
 import { initializeBlogs } from "./reducers/blogReducer";
@@ -32,10 +33,16 @@ const App = () => {
 
   const user = useSelector((state) => state.user);
   const users = useSelector((state) => state.users);
+  const blogs = useSelector((state) => state.blogs);
 
   const userMatch = useMatch("/users/:id");
   const userIdMatch = userMatch
     ? users.find((user) => user.id === userMatch.params.id)
+    : null;
+
+  const blogMatch = useMatch("/blogs/:id");
+  const blogIdMatch = blogMatch
+    ? blogs.find((blog) => blog.id === blogMatch.params.id)
     : null;
 
   return (
@@ -45,6 +52,7 @@ const App = () => {
       <LoginForm />
       <Routes>
         <Route path="/" element={<BlogForm />} />
+        <Route path="/blogs/:id" element={<BlogDetails blog={blogIdMatch} />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetail user={userIdMatch} />} />
       </Routes>

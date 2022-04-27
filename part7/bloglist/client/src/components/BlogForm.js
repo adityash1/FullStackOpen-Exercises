@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-import Blog from "./Blog";
+import { Blog } from "./Blog";
 import CreateBlog from "./CreateBlog";
 import Togglable from "./Togglable";
 

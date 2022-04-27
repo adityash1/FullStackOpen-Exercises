@@ -1,13 +1,18 @@
 import { useDispatch } from "react-redux";
-
-import { likeBlog, removeBlog } from "../reducers/blogReducer";
+import { likeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import { Link } from "react-router-dom";
 
-import { useVisible } from "../hooks";
+const blogStyle = {
+  paddingTop: 10,
+  paddingLeft: 2,
+  border: "solid",
+  borderWidth: 1,
+  marginBottom: 5,
+};
 
-const Blog = ({ blog }) => {
+export const BlogDetails = ({ blog }) => {
   const dispatch = useDispatch();
-  const visible = useVisible();
 
   const handleLikeChange = () => {
     const newObject = {
@@ -21,41 +26,27 @@ const Blog = ({ blog }) => {
     dispatch(setNotification(`liked blog ${blog.title} by ${blog.author}`));
   };
 
-  const handleRemove = () => {
-    if (window.confirm(`remove blog ${blog.title} by ${blog.author}`)) {
-      dispatch(removeBlog(blog.id));
-      dispatch(setNotification(`removed blog ${blog.title} by ${blog.author}`));
-    }
-  };
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
   return (
     <div style={blogStyle}>
-      <div style={visible.hideWhenVisible} className="blogTitle">
+      <h1>
         {blog.title} by {blog.author}
-        <button onClick={visible.toggleVisibility}>view</button>
+      </h1>
+      <div>{blog.url}</div>
+      <div>
+        {blog.likes} likes{" "}
+        <button onClick={() => handleLikeChange(blog)}>like</button>
       </div>
-      <div style={visible.showWhenVisible} className="blogAll">
-        <div>
-          {blog.title} <button onClick={visible.toggleVisibility}>hide</button>
-        </div>
-        <div>{blog.url}</div>
-        <div id="likes">
-          {blog.likes}{" "}
-          <button onClick={() => handleLikeChange(blog)}>like</button>
-        </div>
-        <div>{blog.author}</div>
-        <button onClick={() => handleRemove(blog)}>remove</button>
-      </div>
+      <div>added by {blog.author}</div>
     </div>
   );
 };
 
-export default Blog;
+export const Blog = ({ blog }) => {
+  return (
+    <div style={blogStyle}>
+      <Link to={`/blogs/${blog.id}`}>
+        {blog.title} {blog.author}
+      </Link>
+    </div>
+  );
+};
