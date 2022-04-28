@@ -48,10 +48,6 @@ const App = () => {
 
   return (
     <Container maxWidth="sm">
-      {/* <div>
-        <Link to="/notes">blogs</Link>
-        <Link to="/users">users</Link><LoginForm />
-      </div> */}
       <NavigationMenu />
       {user && <h1>Blog App</h1>}
       <Notification />

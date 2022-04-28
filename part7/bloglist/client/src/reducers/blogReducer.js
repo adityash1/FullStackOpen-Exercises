@@ -52,5 +52,12 @@ export const removeBlog = (id) => {
   };
 };
 
+export const addComment = (id, comment) => {
+  return async (dispatch) => {
+    const data = await blogService.addComment(id, comment);
+    dispatch(update(data));
+  };
+};
+
 export const { set, append, update, remove } = blogSlice.actions;
 export default blogSlice.reducer;

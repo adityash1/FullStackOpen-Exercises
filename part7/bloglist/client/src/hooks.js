@@ -36,15 +36,16 @@ const useLogin = (baseUrl) => {
     return response.data;
   };
 
-  const logout = () => {
-    window.localStorage.removeItem(loggedAppUser);
-  };
+  const clear = () => {
+    username.reset();
+    password.reset();
+  }
 
   return {
     username,
     password,
     login,
-    logout,
+    clear,
   };
 };
 

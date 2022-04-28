@@ -18,28 +18,14 @@ const LoginForm = () => {
       const user = await credentials.login();
       dispatch(setUser(user));
       dispatch(setNotification(`welcome ${user.name}`));
+      credentials.clear();
     } catch (exception) {
       console.log(exception);
       dispatch(setNotification("wrong username or password"));
     }
   };
 
-  const handleLogout = () => {
-    credentials.logout();
-    dispatch(setUser(null));
-    dispatch(setNotification("logged out"));
-  };
-
-  if (user) {
-    return (
-      <div>
-        <p>
-          {user.name} logged in
-          <button onClick={handleLogout}>logout</button>
-        </p>
-      </div>
-    );
-  } else {
+  if (!user) {
     return (
       <div>
         <h2>log in to application</h2>
@@ -59,6 +45,7 @@ const LoginForm = () => {
       </div>
     );
   }
+  return null;
 };
 
 export default LoginForm;

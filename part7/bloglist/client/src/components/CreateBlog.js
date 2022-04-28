@@ -42,7 +42,7 @@ const CreateBlog = () => {
         <div>
           url: <input {...omit(url, "reset")} />
         </div>
-        <button id="create-button" type="submit">
+        <button type="submit">
           create
         </button>
       </form>

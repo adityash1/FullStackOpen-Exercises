@@ -2,8 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import blogService from "../services/blogs";
 
-const loggedAppUser = window.localStorage.getItem("loggedAppUser");
-
 const userSlice = createSlice({
   name: "user",
   initialState: null,
@@ -24,7 +22,7 @@ export const setUser = (user) => {
 };
 
 export const logout = () => {
-  window.localStorage.removeItem(loggedAppUser);
+  window.localStorage.clear();
   return async (dispatch) => {
     dispatch(set(null));
   };

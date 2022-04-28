@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { likeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { Link } from "react-router-dom";
+import CommentForm from "./CommentForm";
 
 const blogStyle = {
   paddingTop: 10,
@@ -9,6 +10,16 @@ const blogStyle = {
   border: "solid",
   borderWidth: 1,
   marginBottom: 5,
+};
+
+export const Blog = ({ blog }) => {
+  return (
+    <div style={blogStyle}>
+      <Link to={`/blogs/${blog.id}`}>
+        {blog.title} {blog.author}
+      </Link>
+    </div>
+  );
 };
 
 export const BlogDetails = ({ blog }) => {
@@ -26,8 +37,10 @@ export const BlogDetails = ({ blog }) => {
     dispatch(setNotification(`liked blog ${blog.title} by ${blog.author}`));
   };
 
+  if (!blog) return null;
+
   return (
-    <div style={blogStyle}>
+    <div>
       <h1>
         {blog.title} by {blog.author}
       </h1>
@@ -37,16 +50,10 @@ export const BlogDetails = ({ blog }) => {
         <button onClick={() => handleLikeChange(blog)}>like</button>
       </div>
       <div>added by {blog.author}</div>
-    </div>
-  );
-};
-
-export const Blog = ({ blog }) => {
-  return (
-    <div style={blogStyle}>
-      <Link to={`/blogs/${blog.id}`}>
-        {blog.title} {blog.author}
-      </Link>
+      <div>
+        <h2>Comments</h2>
+        <CommentForm blog={blog} />
+      </div>
     </div>
   );
 };
