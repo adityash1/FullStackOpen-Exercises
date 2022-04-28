@@ -14,16 +14,14 @@ const notificationSlice = createSlice({
   },
 });
 
-export const setNotification =
-  (message, timeout = 5) =>
-  (dispatch) => {
-    timeout = timeout * 1000;
-    dispatch(notify(message));
+export const setNotification = (notification) => {
+  return async (dispatch) => {
+    dispatch(notify(notification));
     setTimeout(() => {
-      // eslint-disable-next-line no-undef
       dispatch(mute());
-    }, timeout);
+    }, 5000);
   };
+};
 
 export const { notify, mute } = notificationSlice.actions;
 export default notificationSlice.reducer;
