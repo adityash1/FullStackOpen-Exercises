@@ -1,2 +1,5 @@
+# Secret Files
+.env
+
 # dependencies
 /node_modules
