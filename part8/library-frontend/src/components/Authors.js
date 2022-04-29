@@ -2,9 +2,25 @@ import { useQuery, useMutation } from "@apollo/client";
 import { ALL_AUTHORS, EDIT_AUTHOR } from "../queries";
 import { useField } from "../hooks";
 import { omit } from "lodash";
+import { useState } from "react";
+
+// import { Component } from 'react'
+import Select from "react-select";
+
+const SelectAuthor = ({ authors, value, onChange }) => {
+  const options = authors.map((author) => ({
+    value: author.name,
+    label: author.name,
+  }));
+  return (
+    <div>
+      <Select options={options} value={value} onChange={onChange} />
+    </div>
+  );
+};
 
 const Authors = (props) => {
-  const name = useField("text");
+  const [name, setName] = useState(null);
   const born = useField("number");
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
@@ -13,7 +29,6 @@ const Authors = (props) => {
 
   const handleUpdate = async (event) => {
     event.preventDefault();
-
     editAuthor({
       variables: {
         name: name.value,
@@ -21,7 +36,7 @@ const Authors = (props) => {
       },
     });
 
-    name.reset();
+    setName("");
     born.reset();
   };
 
@@ -58,10 +73,15 @@ const Authors = (props) => {
       </table>
       <h3>set birthyear</h3>
       <form onSubmit={handleUpdate}>
-        <div>
+        {/* <div>
           name:
           <input {...omit(name, "reset")} />
-        </div>
+        </div> */}
+        <SelectAuthor
+          authors={authors}
+          value={name}
+          onChange={(name) => setName(name)}
+        />
         <div>
           born:
           <input {...omit(born, "reset")} />
