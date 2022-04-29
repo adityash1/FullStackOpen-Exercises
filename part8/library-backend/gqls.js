@@ -1,5 +1,4 @@
-const { gql } = require('apollo-server')
-
+const { gql, userInputError } = require('apollo-server')
 const Author = require('./modals/Author')
 const Book = require('./modals/Book')
 
@@ -75,7 +74,13 @@ const resolvers = {
         await author.save()
       }
       const book = new Book({ ...args, author: author })
-      await book.save()
+      try {
+        await book.save()
+      } catch (error) {
+        throw new userInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
       return book
     },
     editAuthor: async (_, args) => {
@@ -84,7 +89,13 @@ const resolvers = {
         return null
       }
       author.born = args.setBornTo
-      await author.save()
+      try {
+        await author.save()
+      } catch (error) {
+        throw new userInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
       return author
     },
   },
