@@ -1,5 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server')
-const { nanoid } = require('nanoid')
+const { v4: uuidv4 } = require('uuid');
 
 let authors = [
   {
@@ -132,16 +132,16 @@ const resolvers = {
   Mutation: {
     addBook: (_, args) => {
       if (!authors.find((author) => author.name === args.author)) {
-        authors.concat({
+        const author = {
           name: args.author,
-          id: nanoid(),
-          born: null,
-        })
+          id: uuidv4(),
+        }
+        authors = authors.concat(author)
       }
 
       const newBook = {
         ...args,
-        id: nanoid(),
+        id: uuidv4(),
       }
       books = books.concat(newBook)
       return newBook
@@ -167,6 +167,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 })
+
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
