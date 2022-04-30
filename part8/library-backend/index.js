@@ -1,6 +1,6 @@
 const { ApolloServer } = require('apollo-server')
 const { typeDefs, resolvers } = require('./gqls')
-const { default: mongoose } = require('mongoose')
+const { mongoose } = require('mongoose')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
 const jwt = require('jsonwebtoken')

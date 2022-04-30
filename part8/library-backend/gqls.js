@@ -1,5 +1,4 @@
 const { gql, UserInputError, AuthenticationError } = require('apollo-server')
-const { argsToArgsConfig } = require('graphql/type/definition')
 const jwt = require('jsonwebtoken')
 const Author = require('./modals/Author')
 const Book = require('./modals/Book')
@@ -11,11 +10,9 @@ const typeDefs = gql`
     favoriteGenre: String!
     id: ID!
   }
-
   type Token {
     value: String!
   }
-
   type Author {
     id: ID!
     name: String!
@@ -73,15 +70,26 @@ const resolvers = {
       const authors = await Author.find({})
       return authors
     },
-    me: (root, args, context) => {
+    me: (_, args, context) => {
       return context.currentUser
-    }
+    },
   },
 
   Author: {
     bookCount: async (root) => {
       const books = await Book.find({ author: root.name })
       return books.length
+    },
+  },
+
+  Book: {
+    author: async (root) => {
+      const author = await Author.findById(root.author)
+      return {
+        name: author.name,
+        id: author.id,
+        born: author.born,
+      }
     },
   },
 
@@ -145,7 +153,7 @@ const resolvers = {
         id: user._id,
       }
       return { value: jwt.sign(userForToken, config.SECRET) }
-    }
+    },
   },
 }
 
