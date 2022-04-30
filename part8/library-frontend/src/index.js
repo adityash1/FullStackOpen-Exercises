@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
 import App from "./App";
-
 import {
   ApolloClient,
   ApolloProvider,
@@ -8,11 +7,11 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 
+const httpLink = new HttpLink({ uri: "http://localhost:3001" });
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: "http://localhost:4000",
-  }),
+  link: httpLink,
 });
 
 ReactDOM.render(
