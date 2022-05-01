@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const Author = require('./modals/Author')
 const Book = require('./modals/Book')
 const User = require('./modals/User')
+const config = require('./utils/config')
 
 const typeDefs = gql`
   type User {
@@ -77,7 +78,7 @@ const resolvers = {
 
   Author: {
     bookCount: async (root) => {
-      const books = await Book.find({ author: root.name })
+      const books = await Book.find({ author: root.id })
       return books.length
     },
   },
@@ -118,7 +119,7 @@ const resolvers = {
       if (!context.currentUser) {
         throw new AuthenticationError('not authenticated')
       }
-      const author = await Author.findOne({ name: args.name })
+      let author = await Author.findOne({ name: args.name })
       if (!author) {
         return null
       }
@@ -152,7 +153,7 @@ const resolvers = {
         username: user.username,
         id: user._id,
       }
-      return { value: jwt.sign(userForToken, config.SECRET) }
+      return { value: jwt.sign(userForToken, config.JWT_SECRET) }
     },
   },
 }
