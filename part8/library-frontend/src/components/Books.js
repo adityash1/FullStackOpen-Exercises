@@ -2,16 +2,7 @@ import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
 import Genre from './Genre'
 import { useState } from 'react'
-
-const Book = ({ book }) => {
-  return (
-    <tr>
-      <td>{book.title}</td>
-      <td>{book.author.name}</td>
-      <td>{book.published}</td>
-    </tr>
-  )
-}
+import Book from './Book'
 
 const Books = ({ show }) => {
   const [genre, setGenre] = useState(null)
