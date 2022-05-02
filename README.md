@@ -23,7 +23,7 @@ Other topics include debugging applications, configuration, managing runtime env
 
 ### ☑️ Part 8:  GraphQL 
 
-### ❌ Part 9:  Typescript 
+### ☑️ Part 9:  Typescript 
 
 ### ❌ Part 10: React Native 
 
