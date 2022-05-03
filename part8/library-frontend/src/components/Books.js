@@ -1,29 +1,25 @@
+import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
 import Genre from './Genre'
-import { useState } from 'react'
 import Book from './Book'
 
 const Books = ({ show }) => {
   const [genre, setGenre] = useState(null)
-  const result = useQuery(ALL_BOOKS)
 
+  const result = useQuery(ALL_BOOKS)
   if (result.loading) {
     return <div>loading...</div>
   }
-
   let books = result.data.allBooks
-
   let genres = Array.prototype.concat.apply(
     [],
     books.map((b) => b.genres)
   )
   genres = [...new Set(genres)]
-
   if (genre) {
     books = books.filter((b) => b.genres.includes(genre))
   }
-
   if (!show) return null
   return (
     <div>
@@ -47,5 +43,4 @@ const Books = ({ show }) => {
     </div>
   )
 }
-
 export default Books
