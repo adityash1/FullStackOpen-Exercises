@@ -1,51 +1,15 @@
-const { gql, UserInputError, AuthenticationError } = require('apollo-server')
+const { UserInputError, AuthenticationError } = require('apollo-server')
+
 const jwt = require('jsonwebtoken')
+
+const config = require('./utils/config')
+
 const Author = require('./modals/Author')
 const Book = require('./modals/Book')
 const User = require('./modals/User')
-const config = require('./utils/config')
 
-const typeDefs = gql`
-  type User {
-    username: String!
-    favoriteGenre: String!
-    id: ID!
-  }
-  type Token {
-    value: String!
-  }
-  type Author {
-    id: ID!
-    name: String!
-    bookCount: Int
-    born: Int
-  }
-  type Book {
-    id: ID!
-    title: String!
-    published: Int!
-    author: Author!
-    genres: [String!]!
-  }
-  type Query {
-    bookCount: Int!
-    authorCount: Int!
-    allBooks(author: String, genre: String): [Book!]!
-    allAuthors: [Author!]!
-    me: User
-  }
-  type Mutation {
-    addBook(
-      title: String!
-      author: String
-      published: Int!
-      genres: [String!]!
-    ): Book
-    editAuthor(name: String!, setBornTo: Int!): Author
-    createUser(username: String!, favoriteGenre: String!): User
-    login(username: String!, password: String!): Token
-  }
-`
+const { PubSub } = require('graphql-subscriptions')
+const pubsub = new PubSub()
 
 const resolvers = {
   Query: {
@@ -113,6 +77,7 @@ const resolvers = {
           invalidArgs: args,
         })
       }
+      pubsub.publish('BOOK_ADDED', { bookAdded: book })
       return book
     },
     editAuthor: async (_, args, context) => {
@@ -156,6 +121,11 @@ const resolvers = {
       return { value: jwt.sign(userForToken, config.JWT_SECRET) }
     },
   },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED']),
+    },
+  },
 }
 
-module.exports = { typeDefs, resolvers }
+module.exports = resolvers
