@@ -1,8 +1,17 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
-import Genre from './Genre'
 import Book from './Book'
+
+const Genre = ({ genres, setGenre }) => (
+  <div>
+    {genres.map((genre) => (
+      <button key={genre} onClick={() => setGenre(genre)}>
+        {genre}
+      </button>
+    ))}
+  </div>
+)
 
 const Books = ({ show }) => {
   const [genre, setGenre] = useState(null)
@@ -20,6 +29,7 @@ const Books = ({ show }) => {
   if (genre) {
     books = books.filter((b) => b.genres.includes(genre))
   }
+
   if (!show) return null
   return (
     <div>

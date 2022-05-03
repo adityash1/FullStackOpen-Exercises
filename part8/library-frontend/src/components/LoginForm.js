@@ -18,13 +18,6 @@ const LoginForm = ({ show, setPage, setToken }) => {
     },
   })
 
-  // useEffect(() => {
-  //   if (result.data) {
-  //     setToken(result.data.login.value)
-  //     window.localStorage.setItem('library-user-token', result.data.login.value)
-  //   }
-  // }, [result.data, setToken])
-
   const handleLogin = async (event) => {
     event.preventDefault()
     await login({
