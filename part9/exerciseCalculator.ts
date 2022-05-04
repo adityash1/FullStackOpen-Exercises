@@ -34,4 +34,30 @@ const calculateExercises = (
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+interface MultipleValues {
+  array: Array<number>;
+  value: number;
+}
+
+const parseArguments = (args: Array<string>): MultipleValues => {
+  if (args.length < 4) throw new Error("Not enough arguments");
+
+  const array = args.slice(3).map((arg) => {
+    if (isNaN(Number(arg))) {
+      throw new Error("Provided values were not numbers!");
+    }
+    return Number(arg);
+  });
+  const value = Number(args[2]);
+  return {
+    array,
+    value,
+  };
+};
+
+try {
+  const { array, value } = parseArguments(process.argv);
+  console.log(calculateExercises(array, value));
+} catch (e) {
+  console.log("Error, something bad happened, message: ", e.message);
+}
