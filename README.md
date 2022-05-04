@@ -21,7 +21,7 @@ Other topics include debugging applications, configuration, managing runtime env
 
 ### ✅ [Part 7:  React router, custom hooks, styling app with CSS and webpack](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part7)
 
-### ☑️ [Part 8:  GraphQL](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part8) 
+### ✅ [Part 8:  GraphQL](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part8) 
 
 ### ☑️ [Part 9:  Typescript](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part9) 
 
