@@ -55,9 +55,14 @@ const parseArguments = (args: Array<string>): MultipleValues => {
   };
 };
 
-try {
-  const { array, value } = parseArguments(process.argv);
-  console.log(calculateExercises(array, value));
-} catch (e) {
-  console.log("Error, something bad happened, message: ", e.message);
+if (require.main === module) {
+  try {
+    const { array, value } = parseArguments(process.argv);
+    console.log(calculateExercises(array, value));
+  } catch (e) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    console.log("Error, something bad happened, message: ", e.message);
+  }
 }
+
+export default calculateExercises;

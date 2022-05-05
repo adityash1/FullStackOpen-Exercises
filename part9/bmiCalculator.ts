@@ -15,12 +15,12 @@ const calculateBmi = (height: number, weight: number): string => {
   }
 };
 
-interface MultiplyValues {
+interface MultipleValues {
   value1: number;
   value2: number;
 }
 
-const parseArguments = (args: Array<string>): MultiplyValues => {
+const parseArguments = (args: Array<string>): MultipleValues => {
   if (args.length < 4) throw new Error("Not enough arguments");
   if (args.length > 4) throw new Error("Too many arguments");
 
@@ -34,11 +34,14 @@ const parseArguments = (args: Array<string>): MultiplyValues => {
   }
 };
 
-try {
-  const { value1, value2 } = parseArguments(process.argv);
-  console.log(calculateBmi(value1, value2));
-} catch (e) {
-  console.log("Error, something bad happened, message: ", e.message);
+if (require.main === module) {
+  try {
+    const { value1, value2 } = parseArguments(process.argv);
+    console.log(calculateBmi(value1, value2));
+  } catch (e) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    console.log("Error, something bad happened, message: ", e.message);
+  }
 }
 
 export default calculateBmi;
