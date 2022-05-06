@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 
 import diagnoseRouter from "./routes/diagnoses";
+import patientRouter from "./routes/patients";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.get("/api/ping", (_req, res) => {
 });
 
 app.use("/api/diagnoses", diagnoseRouter);
+app.use("/api/patients", patientRouter);
 
 const PORT = 3001;
 app.listen(PORT, () => {
