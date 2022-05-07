@@ -1,4 +1,14 @@
 GET http://localhost:3001/api/diagnoses
 ###
 GET http://localhost:3001/api/patients
+###
+POST http://localhost:3001/api/patients
+Content-Type: application/json
 
+    {
+        "name": "John Smith",
+        "ssn": "123456-789",
+        "dateOfBirth": "1980-01-01",
+        "gender": "male",
+        "occupation": "Software Engineer"
+    }
