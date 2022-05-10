@@ -15,15 +15,9 @@ const getPatients = (): Omit<Patient, "ssn">[] => {
   }));
 };
 
-const addPatient = (
-  name: string,
-  dateOfBirth: string,
-  ssn: string,
-  gender: "male" | "female" | "other",
-  occupation: string
-): Patient => {
+const addPatient = (entry: Omit<Patient, "id">): Patient => {
   const id: string = uuidv4();
-  const newEntry = { id, name, dateOfBirth, ssn, gender, occupation };
+  const newEntry = { id, ...entry };
   return newEntry;
 };
 
