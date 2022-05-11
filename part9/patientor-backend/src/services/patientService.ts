@@ -1,11 +1,11 @@
 import data from "../../data/patients.json";
-import { Patient } from "../types";
+import { PublicPatient, Patient } from "../types";
 
 import { v4 as uuidv4 } from "uuid";
 
 const patients: Array<Patient> = data as Array<Patient>;
 
-const getPatients = (): Omit<Patient, "ssn">[] => {
+const getPatients = (): PublicPatient[] => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
     id,
     name,
@@ -15,13 +15,25 @@ const getPatients = (): Omit<Patient, "ssn">[] => {
   }));
 };
 
-const addPatient = (entry: Omit<Patient, "id">): Patient => {
+const addPatient = (entry: Omit<PublicPatient, "id">): PublicPatient => {
   const id: string = uuidv4();
   const newEntry = { id, ...entry };
   return newEntry;
 };
 
+const findById = (id: string): Patient | undefined => {
+  const patient = patients.find((p) => p.id === id);
+  if (patient) {
+    return {
+      ...patient,
+      entries: [],
+    };
+  }
+  return undefined;
+};
+
 export default {
   getPatients,
   addPatient,
+  findById,
 };

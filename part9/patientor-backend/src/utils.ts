@@ -40,6 +40,7 @@ const toNewPatientEntry = (object: any): Omit<Patient, "id"> => {
     dateOfBirth: parseDate(object.dateOfBirth),
     gender: parseGender(object.gender),
     occupation: parseString(object.occupation),
+    entries: [],
   };
 };
 
