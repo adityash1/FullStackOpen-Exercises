@@ -11,6 +11,8 @@
     "lint": "eslint ./src/**/*.{js,jsx} App.js --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "@types/react": "~18.0.0",
+    "@types/react-native": "~0.69.1",
     "expo": "^46.0.10",
     "expo-status-bar": "~1.4.0",
     "formik": "^2.2.9",
@@ -18,7 +20,9 @@
     "react-dom": "18.0.0",
     "react-native": "0.69.5",
     "react-native-web": "~0.18.7",
-    "react-router-native": "^6.3.0"
+    "react-router-native": "^6.3.0",
+    "typescript": "^4.6.3",
+    "yup": "^0.28.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
