@@ -26,9 +26,3 @@ Other topics include debugging applications, configuration, managing runtime env
 ### ☑️ [Part 9:  Typescript](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part9) 
 
 ### ☑️ [Part 10: React Native](https://github.com/adityash1/FullStackOpen-Exercises/tree/main/part10)
-
-### ❌ Part 11: CI/CD 
-
-### ❌ Part 12: Containers
-
-### ❌ Part 13: Using relational databases
